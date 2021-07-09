@@ -27,17 +27,15 @@ import matplotlib.pyplot as plt  #for simplicity, to not write matplotlib.pyplot
 #from scipy.stats import norm               ##norm.fit() fit to gaussian
 import numpy as np
     #np contain linspaces as np.linspace(a,b,N)
-import scipy.optimize              #to do the fit. doing only import scipy sometimes
                                 #gives an error, so have to do this        
-from plotly.graph_objs import Bar, Layout
-from plotly import offline
+#from plotly.graph_objs import Bar, Layout
+#from plotly import offline
 
 import sys                   #to import functions from other folders!!
 sys.path.insert(0, '/home/dla/Python/Functions_homemade')   #path where I have the functions
 
 
-import Gaussian_fit
-import Linear_regression
+import Fits
 import Read_csv_hist_emu
 ######3
 
@@ -166,7 +164,7 @@ plt.xlim(0,3000)                   #limits of x axis
 plt.savefig('Signal_Cs.png', format='png')
 ###
 
-fit = Gaussian_fit.Gaussian_fit(ch_peak,counts_peak)
+fit = Fits.Gaussian_fit(ch_peak,counts_peak)
 
 
 #Storing of the relevant data, sigma and its error
@@ -258,7 +256,7 @@ plt.savefig('Signal_Co60_pico1_sum.png', format='png')
 ###
 
 
-fit = Gaussian_fit.Gaussian_fit(ch_peak,counts_peak)
+fit = Fits.Gaussian_fit(ch_peak,counts_peak)
 
 
 sigma_stored = np.append(sigma_stored, fit['sigma'])
@@ -325,7 +323,7 @@ plt.savefig('Signal_Co60_pico2_sum.png', format='png')
 ###
 
 
-fit = Gaussian_fit.Gaussian_fit(ch_peak,counts_peak)
+fit = Fits.Gaussian_fit(ch_peak,counts_peak)
 
 
 sigma_stored = np.append(sigma_stored, fit['sigma'])
@@ -399,7 +397,7 @@ plt.xlim(0,3000)                   #limits of x axis
 plt.savefig('Signal_Na_pico1_sum.png', format='png')
 ###
 
-fit = Gaussian_fit.Gaussian_fit(ch_peak,counts_peak)
+fit = Fits.Gaussian_fit(ch_peak,counts_peak)
 
 sigma_stored = np.append(sigma_stored, fit['sigma'])
 mean_stored = np.append(mean_stored, fit['mean'])
@@ -466,7 +464,7 @@ plt.xlim(0,3000)                   #limits of x axis
 plt.savefig('Signal_Na_pico2_sum.png', format='png')
 ###
 
-fit = Gaussian_fit.Gaussian_fit(ch_peak,counts_peak)
+fit = Fits.Gaussian_fit(ch_peak,counts_peak)
 
 sigma_stored = np.append(sigma_stored, fit['sigma'])
 mean_stored = np.append(mean_stored, fit['mean'])
@@ -536,7 +534,7 @@ plt.xlim(0,3000)                   #limits of x axis
 plt.savefig('Signal_LYSO_sum.png', format='png')
 ###
 
-fit = Gaussian_fit.Gaussian_fit(ch_peak,counts_peak)
+fit = Fits.Gaussian_fit(ch_peak,counts_peak)
 
 sigma_stored = np.append(sigma_stored, fit['sigma'])
 mean_stored = np.append(mean_stored, fit['mean'])
@@ -633,7 +631,7 @@ plt.grid(True)
 def linear(x, m, n):       #Definition of the function to use to fit the data
     return m * x + n 
 
-fit_lin_exp = Linear_regression.LinearRegression(np.log(Energy), np.log(R_stored) )
+fit_lin_exp = Fits.LinearRegression(np.log(Energy), np.log(R_stored) )
 
 plt.figure(figsize=(8,5))  #width, heigh 6.4*4.8 inches by default
 plt.errorbar(Energy, R_stored, delta_R_stored, fmt='.r', capsize = 5)
@@ -659,9 +657,7 @@ plt.savefig('R_vs_E_emu.png', format='png')
 #form the fit, in order that the error would be greater (\sqrt counts)
 
 
-
-
-lin_fit = Linear_regression.LinearRegression(ch_peak_stored, Energy)            
+lin_fit = Fits.LinearRegression(ch_peak_stored, Energy)            
 
 #Plot with fit
 
