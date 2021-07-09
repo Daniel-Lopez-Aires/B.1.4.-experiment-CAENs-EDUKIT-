@@ -27,16 +27,14 @@ import matplotlib.pyplot as plt  #for simplicity, to not write matplotlib.pyplot
 #from scipy.stats import norm               ##norm.fit() fit to gaussian
 import numpy as np
     #np contain linspaces as np.linspace(a,b,N)
-                                #gives an error, so have to do this        
+import pandas as pd      
 #from plotly.graph_objs import Bar, Layout
 #from plotly import offline
 
 import sys                   #to import functions from other folders!!
 sys.path.insert(0, '/home/dla/Python/Functions_homemade')   #path where I have the functions
 
-
 import Fits
-import Read_csv_hist_emu
 ######3
 
 
@@ -66,32 +64,40 @@ time[Cs], time[Co], time[Na], time[Ba] = 120,120,120,120
 counts_stored = np.array([])                          #storing variable of the counts
 ADC_channel = np.array([])                          #to store the channels
 
-###Cs137
-load = Read_csv_hist_emu.Read_csv_emulator('Cs137_120s_gain_0_3.csv')                                
-
+######## Cs137 #########
+Cs137 = pd.read_csv('Cs137_120s_gain_0_3.csv', sep = ',', header = None, 
+                   names = ['Counts','None!'])
+                #, as sepparator, no header. I rename the columns. THere is an
+                #empty column!
+                            
 #Storing of the values
-counts_stored = np.append(counts_stored,load[0])
+counts_stored = np.append(counts_stored,Cs137['Counts'])
 ADC_channel = np.append(ADC_channel, np.arange(0, len(counts_stored)) ) 
         #all have the same channels!
 
-  ###Co60
-load = Read_csv_hist_emu.Read_csv_emulator('Co_60_120s_gain_0_3.csv')      
-   
+
+
+########### Co60 ############     
+Co60 = pd.read_csv('Co_60_120s_gain_0_3.csv', sep = ',', header = None, 
+                   names = ['Counts','None!'])   
+
 #Storing of the values (the 2nd storing and more has to be columns stack!!)
-counts_stored = np.column_stack( (counts_stored,load[0]) )
+counts_stored = np.column_stack( (counts_stored,Co60['Counts']) )
 
 ###  
 
 
-###Na
-load = Read_csv_hist_emu.Read_csv_emulator('Na22_120s_gain_0_3.csv') 
-   
-counts_stored = np.column_stack( (counts_stored,load[0]) )
+############### Na22 ###################
+Na22 = pd.read_csv('Na22_120s_gain_0_3.csv', sep = ',', header = None, 
+                   names = ['Counts','None!'])      
+counts_stored = np.column_stack( (counts_stored,Na22['Counts']) )
 
-###Ba
-load = Read_csv_hist_emu.Read_csv_emulator('Ba133_120s_gain_0_3.csv') 
-   
-counts_stored = np.column_stack( (counts_stored,load[0]) )
+
+
+########### Ba 133 ####################
+Ba133 = pd.read_csv('Ba133_120s_gain_0_3.csv', sep = ',', header = None, 
+                   names = ['Counts','None!'])         
+counts_stored = np.column_stack( (counts_stored,Ba133['Counts']) )
  
 
 
