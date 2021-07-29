@@ -25,6 +25,8 @@ import matplotlib.pyplot as plt  #for simplicity, to not write matplotlib.pyplot
         #everytime we want to plot something
 import numpy as np
     #np contain linspaces as np.linspace(a,b,N)     
+import pandas as pd
+
 import sys                   #to import functions from other folders!!
 sys.path.insert(0, '/home/dla/Python/Functions_homemade')   #path where I have the functions
 
@@ -692,21 +694,24 @@ plt.savefig('R_vs_E_CAENS_style.png', format='png')
 # plt.tick_params(axis='both', labelsize=14)              #size of axis
 # plt.grid(True) 
 
+
+
+
 #%% #################################################
-################4)Calibration plot
-
-#for the energy channel resolution, will choose the maximum from the hist,isntead of
-#form the fit, in order that the error would be greater (\sqrt counts)
-
-
+################ 4)Calibration plot ######################
+#########################################################
+#for the energy channel resolution, for the channels the mean of the gaussian have
+#to be choosen to avoid errors
 
 
-lin_fit = Fits.LinearRegression(ch_peak_stored, Energy)            
+
+
+lin_fit = Fits.LinearRegression(mean_stored, Energy)            
 
 #Plot with fit
 
 plt.figure(figsize=(8,5))  #width, heigh 6.4*4.8 inches by default
-plt.errorbar(ch_peak_stored, Energy, np.sqrt(ch_peak_stored), fmt='.r', capsize = 5)
+plt.errorbar(mean_stored, Energy, yerr = np.sqrt(delta_mean_stored), fmt='.r', capsize = 5)
 plt.plot(ch_peak_stored, [linear(a, lin_fit['Slope'], lin_fit['Intercept']) for a in ch_peak_stored])      #fit
 plt.title("Energy calibration", fontsize=22, wrap=True)           #title
 plt.xlabel("ADC channels", fontsize=14)              #ylabel
