@@ -659,16 +659,14 @@ plt.savefig('R_vs_E_emu.png', format='png')
 #%% #################################################
 ################4)Calibration plot
 
-#for the energy channel resolution, will choose the maximum from the hist,isntead of
-#form the fit, in order that the error would be greater (\sqrt counts)
 
 
-lin_fit = Fits.LinearRegression(ch_peak_stored, Energy)            
+lin_fit = Fits.LinearRegression(mean_stored, Energy)            
 
 #Plot with fit
 
 plt.figure(figsize=(8,5))  #width, heigh 6.4*4.8 inches by default
-plt.errorbar(ch_peak_stored, Energy, np.sqrt(ch_peak_stored), fmt='.r', capsize = 5)
+plt.errorbar(mean_stored, Energy, yerr = np.sqrt(delta_mean_stored), fmt='.r', capsize = 5)
 plt.plot(ch_peak_stored, [linear(a, lin_fit['Slope'], lin_fit['Intercept']) for a in ch_peak_stored])      #fit
 plt.title("Energy calibration (emu)", fontsize=22, wrap=True)           #title
 plt.xlabel("ADC channels", fontsize=14)              #ylabel
